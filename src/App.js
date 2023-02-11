@@ -1,23 +1,54 @@
-import logo from './logo.svg';
+//  CSS
 import './App.css';
 
+// React
+import { useCallback, useEffect, useState } from 'react';
+
+// Data
+
+import { wordsList } from './data/words';
+
+// Components
+import StartScreen from './components/StartScreen';
+import Game from './components/Game';
+import GameOver from './components/GameOver';
+
+const stages = [
+  {id: 1, name: 'Start'},
+  {id: 2, name: 'Game'},
+  {id: 3, name: 'End'},
+];
+
 function App() {
+  const [gameStage, setGameStage] = useState(stages[0].name);
+  const [words] = useState(wordsList);
+
+
+  // Starts the secret word game
+
+  const startGame = () => {
+    setGameStage(stages[1].name);
+  };
+
+  // Process the letter input
+
+  const verifyLetter = () => {
+    setGameStage(stages[2].name);
+  }
+
+  // Restarts the game 
+
+  const retry = () => {
+    setGameStage(stages[0].name);
+  }
+
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {gameStage === stages[0].name && <StartScreen startGame={startGame} />}
+      {gameStage === stages[1].name && <Game verifyLetter={verifyLetter} />}
+      {gameStage === stages[2].name && <GameOver retry={retry} />}
     </div>
   );
 }
