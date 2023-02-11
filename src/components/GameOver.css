@@ -1,0 +1,9 @@
+.gameOver h1 {
+  font-size: 3.5em;
+  color: #ffffff;
+}
+
+.gameOver p {
+  margin-bottom: 2em;
+  color: #ffffff;
+}
