@@ -14,9 +14,9 @@ import Game from './components/Game';
 import GameOver from './components/GameOver';
 
 const stages = [
-  { id: 1, name: 'Start' },
-  { id: 2, name: 'Game' },
-  { id: 3, name: 'End' },
+  { id: 1, name: 'start' },
+  { id: 2, name: 'game' },
+  { id: 3, name: 'end' },
 ];
 
 function App() {
@@ -26,6 +26,10 @@ function App() {
   const [pickedWord, setPickedWord] = useState('');
   const [pickedCategory, setPickedCategory] = useState('');
   const [letters, setLetters] = useState([]);
+  const [guessedLetters, setGuessedLetters] = useState([]);
+  const [wrongLetters, setWrongLetters] = useState([]);
+  const [guesses, setGuesses] = useState(3);
+  const [score, setScore] = useState(0);
 
   const pickWordAndCategory = () => {
     //  pick a random category
@@ -61,8 +65,10 @@ function App() {
 
   // Process the letter input
 
-  const verifyLetter = () => {
-    setGameStage(stages[2].name);
+  const [letter, setLetter] = useState("");
+
+  const verifyLetter = (letter) => {
+    console.log(letter);
   }
 
   // Restarts the game 
@@ -73,9 +79,20 @@ function App() {
 
   return (
     <div className="App">
-      {gameStage === stages[0].name && <StartScreen startGame={startGame} />}
-      {gameStage === stages[1].name && <Game verifyLetter={verifyLetter} />}
-      {gameStage === stages[2].name && <GameOver retry={retry} />}
+      {gameStage === "start" && <StartScreen startGame={startGame} />}
+      {gameStage === "game" && (
+        <Game
+          verifyLetter={verifyLetter}
+          pickedWord={pickedWord}
+          pickedCategory={pickedCategory}
+          letters={letters}
+          guessedLetters={guessedLetters}
+          wrongLetters={wrongLetters}
+          guesses={guesses}
+          score={score}
+        />
+      )}
+      {gameStage === "end" && <GameOver retry={retry} score={score} />}
     </div>
   );
 }
